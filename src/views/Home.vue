@@ -26,18 +26,24 @@ export default {
     };
   },
   methods: {
-    async getZodiaco() {
+   async getZodiaco() {
       try {
-        let data = await axios.get(
-          "http://localhost:8080/test/tb/zodiaco.json"
-        );
+        let data = await axios.get("http://localhost:8080/test/tb/zodiaco.json");
         this.zodiacos = data.data;
-        console.log(this.$route.params.id);
+        let capturados = []
+        this.zodiacos.map(z => {
+          if(z.meses.includes(parseInt(this.$route.query.mes)))
+          {
+          capturados.push(z)
+          this.zodiacos = capturados
+          console.log(this.zodiacos)
+          }
+        });
       } catch (error) {
         console.error(error);
       }
     },
-  },
+    },
   mounted() {
     this.getZodiaco();
   },
